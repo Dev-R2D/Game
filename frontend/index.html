@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>r2d-frontend</title>
+    <!--
+      VWorld 3D 지도 SDK는 내부적으로 여러 의존 스크립트를 document.write()로 불러오는데,
+      이는 문서가 아직 파싱 중일 때만 동작함. React 컴포넌트에서 script 태그를 동적으로
+      추가하면(SPA 특성상 문서 로드가 끝난 뒤) document.write가 조용히 실패해서 vw.Map이
+      영영 안 만들어짐 — 그래서 반드시 최초 HTML의 <head>에 정적으로 박아둬야 함.
+      키가 없으면(apiKey=) 요청이 조용히 실패할 뿐 다른 화면엔 영향 없음.
+    -->
+    <script src="https://map.vworld.kr/js/webglMapInit.js.do?version=3.0&apiKey=%VITE_VWORLD_MAP_KEY%"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

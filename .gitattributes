@@ -1,0 +1,17 @@
+# 줄바꿈 정규화
+# 팀원이 Windows/Mac/Linux를 섞어 쓰더라도 저장소에는 항상 LF로 들어갑니다.
+* text=auto eol=lf
+
+# Windows 배치 파일은 CRLF여야 정상 동작합니다.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# gradlew는 sh 스크립트입니다. CRLF가 섞이면 Mac/Linux에서 실행되지 않습니다.
+gradlew text eol=lf
+
+# 바이너리
+*.jar binary
+*.png binary
+*.jpg binary
+*.docx binary
+*.pdf binary
