@@ -1,0 +1,21 @@
+{
+  "logId": "A",
+  "title": "신규 구간 기준 로그",
+  "sourceType": "TEST",
+  "sourceLabel": "실측 로그 확보 전까지 쓰는 자리표시자 경로 정의입니다. 실제 자전거 주행 로그로 교체해야 합니다.",
+  "derivedFrom": null,
+  "purpose": "미탐사 셀 확보와 개척 덱 정산 확인",
+  "regionCode": "DONGTAN2",
+  "waypoints": [
+    { "lat": 37.2005, "lon": 127.0980 },
+    { "lat": 37.2050, "lon": 127.0985 },
+    { "lat": 37.2090, "lon": 127.1030 },
+    { "lat": 37.2120, "lon": 127.1090 }
+  ],
+  "speedMps": 5.0,
+  "sampleIntervalMs": 1000,
+  "baseAccuracyM": 8.0,
+  "events": [],
+  "qualityFaults": [],
+  "deviation": null
+}

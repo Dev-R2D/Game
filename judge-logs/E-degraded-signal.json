@@ -1,0 +1,24 @@
+{
+  "logId": "E",
+  "title": "신호 품질 저하 로그",
+  "sourceType": "TEST",
+  "sourceLabel": "무효·보류 판정이 실제로 동작하는지 보이기 위해 결함을 의도적으로 심어 둔 테스트 로그입니다.",
+  "derivedFrom": null,
+  "purpose": "좌표 점프·신호 공백·정확도 저하가 결과 화면에서 무효/보류로 구분되는지 확인",
+  "regionCode": "DONGTAN2",
+  "waypoints": [
+    { "lat": 37.2005, "lon": 127.0980 },
+    { "lat": 37.2045, "lon": 127.1010 },
+    { "lat": 37.2075, "lon": 127.1060 }
+  ],
+  "speedMps": 4.8,
+  "sampleIntervalMs": 1000,
+  "baseAccuracyM": 9.0,
+  "events": [],
+  "qualityFaults": [
+    { "atProgress": 0.25, "kind": "ACCURACY_SPIKE", "magnitude": 60.0 },
+    { "atProgress": 0.50, "kind": "COORD_JUMP", "magnitude": 400.0 },
+    { "atProgress": 0.75, "kind": "TIME_GAP", "magnitude": 45.0 }
+  ],
+  "deviation": null
+}

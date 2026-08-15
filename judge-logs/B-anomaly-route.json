@@ -1,0 +1,63 @@
+{
+  "logId": "B",
+  "title": "이상 후보 포함 로그",
+  "sourceType": "TEST",
+  "sourceLabel": "판정 규칙과 오탐 반례를 확인하기 위해 명시적으로 만든 테스트 로그입니다. 실측 주행 로그가 아닙니다.",
+  "derivedFrom": null,
+  "purpose": "후보 탐지, 정상 시설물 오탐 배제, 의심 몹 생성 확인",
+  "regionCode": "DONGTAN2",
+  "waypoints": [
+    { "lat": 37.1960, "lon": 127.0930 },
+    { "lat": 37.1995, "lon": 127.0940 },
+    { "lat": 37.2020, "lon": 127.0985 }
+  ],
+  "speedMps": 4.5,
+  "sampleIntervalMs": 1000,
+  "baseAccuracyM": 8.0,
+  "events": [
+    {
+      "atProgress": 0.15,
+      "durationMs": 420,
+      "peakG": 3.0,
+      "rmsG": 0.40,
+      "dominantHz": 7.0,
+      "gyroRmsDps": 12.0,
+      "mountStable": true,
+      "intent": "과속방지턱. 피크는 크지만 길고 완만한 저주파 파형이므로 정상 시설물로 배제되어야 합니다."
+    },
+    {
+      "atProgress": 0.40,
+      "durationMs": 90,
+      "peakG": 3.4,
+      "rmsG": 0.50,
+      "dominantHz": 26.0,
+      "gyroRmsDps": 30.0,
+      "mountStable": true,
+      "intent": "짧고 날카로운 고주파 단일 충격. 충격성 이상 후보로 분류되어야 합니다."
+    },
+    {
+      "atProgress": 0.70,
+      "durationMs": 1400,
+      "peakG": 1.9,
+      "rmsG": 0.72,
+      "dominantHz": 18.0,
+      "gyroRmsDps": 20.0,
+      "mountStable": true,
+      "intent": "일정 거리에 걸친 지속 진동. 반복 진동성 이상 후보로 분류되어야 합니다."
+    },
+    {
+      "atProgress": 0.88,
+      "durationMs": 200,
+      "peakG": 3.8,
+      "rmsG": 0.30,
+      "dominantHz": 22.0,
+      "gyroRmsDps": 95.0,
+      "mountStable": false,
+      "intent": "거치대가 흔들린 상황. 피크가 커도 판정 보류로 떨어져야 합니다."
+    }
+  ],
+  "qualityFaults": [
+    { "atProgress": 0.55, "kind": "ACCURACY_SPIKE", "magnitude": 45.0 }
+  ],
+  "deviation": null
+}

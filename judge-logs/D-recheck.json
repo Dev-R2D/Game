@@ -1,0 +1,31 @@
+{
+  "logId": "D",
+  "title": "양호·보수 후 재확인 로그",
+  "sourceType": "TEST",
+  "sourceLabel": "B와 같은 경로를 이상 파형 없이 통과하는 테스트 로그입니다. 실제 양호 구간 재주행 로그가 확보되면 교체해야 합니다.",
+  "derivedFrom": null,
+  "purpose": "확정 후보의 소멸(파란색) 전이 확인. 3회 반복 재생하면 소멸합니다.",
+  "regionCode": "DONGTAN2",
+  "waypoints": [
+    { "lat": 37.1960, "lon": 127.0930 },
+    { "lat": 37.1995, "lon": 127.0940 },
+    { "lat": 37.2020, "lon": 127.0985 }
+  ],
+  "speedMps": 4.5,
+  "sampleIntervalMs": 1000,
+  "baseAccuracyM": 7.0,
+  "events": [
+    {
+      "atProgress": 0.15,
+      "durationMs": 420,
+      "peakG": 3.0,
+      "rmsG": 0.40,
+      "dominantHz": 7.0,
+      "gyroRmsDps": 12.0,
+      "mountStable": true,
+      "intent": "보수 후에도 남아 있는 과속방지턱. 정상 시설물이므로 소멸 판정을 방해하지 않아야 합니다."
+    }
+  ],
+  "qualityFaults": [],
+  "deviation": null
+}

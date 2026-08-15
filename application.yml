@@ -1,0 +1,121 @@
+spring:
+  application:
+    name: r2d-backend
+
+  datasource:
+    # 제출 빌드는 심사자가 별도 설치 없이 바로 띄울 수 있어야 하므로 H2 파일 DB를 씁니다.
+    # 운영 전환 시 이 블록만 교체하면 되고, 도메인 코드는 표준 JPA만 사용합니다.
+    url: jdbc:h2:file:./data/r2d;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jackson:
+    default-property-inclusion: non_null
+
+server:
+  port: ${PORT:8080}
+  tomcat:
+    threads:
+      # Render 무료 티어는 512MB RAM뿐이라 기본 스레드풀(200)이 메모리를 너무 씀 —
+      # 해커톤 데모 트래픽 규모에는 이 정도면 충분합니다.
+      max: 20
+      min-spare: 4
+
+logging:
+  level:
+    com.r2d: INFO
+
+# r2d.web = 웹 계층 설정, 나머지는 게임 밸런스와 판정 임계값입니다.
+# 임계값은 실제 자전거·차량·도보 로그로 검증한 뒤 이 값만 바꿔 조정합니다. 코드 변경이 필요 없습니다.
+r2d:
+  auth:
+    # HS256 서명 키. 최소 32바이트.
+    # 비워 두면 기동할 때마다 임의 키를 만들고 경고를 남깁니다(재시작 시 모든 토큰 무효).
+    # 운영에서는 환경변수로 주입하세요:  R2D_AUTH_JWT_SECRET=...
+    jwt-secret: ${R2D_AUTH_JWT_SECRET:}
+    access-token-minutes: 60
+    refresh-token-days: 30
+    issuer: r2d
+    min-password-length: 8
+    # 기존 프론트엔드와 심사 모드가 아직 X-Player-Id를 쓰고 있어 켜 두었습니다.
+    # 이 헤더는 인증이 아니므로 실제 서비스 전에 false로 바꿔야 합니다.
+    allow-legacy-player-id-header: true
+
+
+  web:
+    # 프론트엔드 개발 서버 출처. 운영 배포 시에는 실제 도메인만 남기세요.
+    allowed-origins:
+      - http://localhost:3000
+      - http://localhost:5173
+      - http://localhost:8081
+      - http://127.0.0.1:3000
+      - http://127.0.0.1:5173
+
+  quality:
+    max-accuracy-m: 30.0
+    max-implied-speed-mps: 25.0
+    max-gap-seconds: 30.0
+    min-valid-sample-ratio: 0.6
+    min-confidence-coefficient: 0.5
+
+  transport:
+    walk-p95-mps: 2.5
+    bicycle-max-p95-mps: 12.0
+    vehicle-p95-mps: 14.0
+    vehicle-max-vibration-g: 0.12
+    bicycle-confirm-confidence: 0.7
+
+  anomaly:
+    impact-max-duration-ms: 150
+    normal-feature-min-duration-ms: 300
+    min-peak-g: 1.8
+    impact-min-dominant-hz: 12.0
+    vibration-min-rms-g: 0.55
+    vibration-min-duration-ms: 800
+    confirm-distinct-users: 2
+    confirm-distinct-days: 3
+    confirm-confidence: 0.7
+    resolve-clean-rides: 3
+
+  cell:
+    freshness-days: 30
+    low-confidence-threshold: 0.6
+    repeat-window-days: 7
+    repeat-decay-factor: 0.5
+
+  damage:
+    per-meter: 1.0
+    endurance-bonus-per-card: 0.15
+    line-bonus-per-card: 0.20
+    synergy-triple: 1.30
+    synergy-pair: 1.15
+    synergy-mixed: 1.05
+
+  boss:
+    hp-per-need-unit: 1200.0
+    phase-count: 3
+    min-hp: 20000.0
+
+  pack:
+    gold-new-cells: 5
+    silver-updated-cells: 4
+    upgrade-chance: 0.15
+
+  daily-cap:
+    packs: 5
+    xp: 3000
+    region-contribution-points: 500

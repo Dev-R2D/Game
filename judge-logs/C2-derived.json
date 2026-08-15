@@ -1,0 +1,21 @@
+{
+  "logId": "C2",
+  "title": "교차검증 재현 파생 로그 2",
+  "sourceType": "DERIVED",
+  "sourceLabel": "B 로그에 위치 9m·속도 -5%·센서 -10%의 통제된 편차를 적용해 생성했습니다. 서로 다른 실제 라이더의 원본 데이터가 아닙니다.",
+  "derivedFrom": "B",
+  "purpose": "관측이 더 쌓였을 때 신뢰도 상승과 중복 제거 확인",
+  "regionCode": "DONGTAN2",
+  "waypoints": [],
+  "speedMps": 0,
+  "sampleIntervalMs": 1000,
+  "baseAccuracyM": 8.0,
+  "events": [],
+  "qualityFaults": [],
+  "deviation": {
+    "positionJitterM": 9.0,
+    "speedScale": 0.95,
+    "sensorScale": 0.90,
+    "seed": 20260805
+  }
+}
