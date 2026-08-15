@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    # 테스트는 매번 빈 상태에서 시작해야 하므로 인메모리 DB를 씁니다.
+    url: jdbc:h2:mem:r2d-test;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+  h2:
+    console:
+      enabled: false
+
+logging:
+  level:
+    com.r2d: WARN
+    org.hibernate.SQL: WARN

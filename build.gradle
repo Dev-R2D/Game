@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '4.0.7'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.r2d'
+version = '0.1.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // 인증: 비밀번호 해싱(BCrypt)과 JWT 발급·검증.
+    // Spring Security 전체를 붙이면 필터 체인까지 따라오므로, 필요한 두 조각만 가져옵니다.
+    implementation 'org.springframework.security:spring-security-crypto'
+    // Spring Boot 4 BOM은 nimbus 버전을 관리하지 않으므로 직접 고정합니다.
+    implementation 'com.nimbusds:nimbus-jose-jwt:10.9.1'
+
+    runtimeOnly 'com.h2database:h2'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // Spring Boot 4에서 MockMvc 테스트 지원은 별도 모듈로 분리되었습니다.
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
