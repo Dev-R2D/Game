@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "r2d-frontend",
+      "runtimeExecutable": "cmd.exe",
+      "runtimeArgs": ["/c", "cd /d \"C:\\Users\\HI\\Desktop\\새 폴더\\NHN_HACKATHON\\frontend\" && \"C:\\Program Files\\nodejs\\npm.cmd\" run dev"],
+      "port": 5173
+    }
+  ]
+}
