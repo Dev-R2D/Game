@@ -3,7 +3,9 @@
 //
 // 정식 라우터(react-router) 없이, screen이라는 state 값 하나로
 // "지금 어느 화면인지"를 표현하는 방식을 그대로 이어감.
-// 화면 순서: onboarding → register → missions → deck → ride → settlement → pack → map
+// 화면 순서: onboarding → register → missions → deck → map(레드포인트) → battle(몬스터) → settlement → pack
+// ※ 주행 자체(GPS 수집)는 이제 네비게이터(iOS)가 담당함. 덱 편성 다음에는 곧바로
+//   "주행 데이터로 찍힌 레드포인트 지도"가 오고, 레드포인트를 탭하면 몬스터 배틀로 감.
 
 import { useState } from 'react';
 import { getPlayerId } from './api';
@@ -14,6 +16,7 @@ import DeckBuilder from './screens/DeckBuilder';
 import Settlement from './screens/Settlement';
 import PackOpen from './screens/PackOpen';
 import MapView from './screens/MapView';
+import MonsterBattle from './screens/MonsterBattle';
 
 function App() {
   // 앱을 처음 켰을 때, 이미 저장된 publicId가 있으면 온보딩·등록 화면을 건너뜀
@@ -26,6 +29,7 @@ function App() {
   const [rideId, setRideId] = useState(null);
   const [clientEstimatedDamage, setClientEstimatedDamage] = useState(null);
   const [rideRoute, setRideRoute] = useState(null); // 방금 달린 경로(정산 화면 결과 지도용)
+  const [selectedAnomaly, setSelectedAnomaly] = useState(null); // 지도에서 탭한 레드포인트
 
   function handleRegisterDone(data) {
     setPlayer(data);
@@ -40,14 +44,12 @@ function App() {
   function handleDeckNext(code, cardCodes) {
     setRegionCode(code);
     setDeckCardCodes(cardCodes);
-    setScreen('ride');
+    setScreen('map');
   }
 
-  function handleRideFinish(id, estimatedDamage, route) {
-    setRideId(id);
-    setClientEstimatedDamage(estimatedDamage || null);
-    setRideRoute(route || null);
-    setScreen('settlement');
+  function handleSelectAnomaly(anomaly) {
+    setSelectedAnomaly(anomaly);
+    setScreen('battle');
   }
 
   switch (screen) {
@@ -78,7 +80,20 @@ function App() {
     case 'pack':
       return <PackOpen onNext={() => setScreen('map')} onNavigate={setScreen} />;
     case 'map':
-      return <MapView onBack={() => setScreen('missions')} onNavigate={setScreen} />;
+      return (
+        <MapView
+          onBack={() => setScreen('missions')}
+          onNavigate={setScreen}
+          onSelectAnomaly={handleSelectAnomaly}
+        />
+      );
+    case 'battle':
+      return (
+        <MonsterBattle
+          anomaly={selectedAnomaly}
+          onDone={() => setScreen('map')}
+        />
+      );
     default:
       return <MissionSelect onNext={handleMissionNext} onNavigate={setScreen} />;
   }
