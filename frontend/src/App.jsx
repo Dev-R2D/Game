@@ -11,7 +11,6 @@ import Onboarding from './screens/Onboarding';
 import PlayerRegister from './screens/PlayerRegister';
 import MissionSelect from './screens/MissionSelect';
 import DeckBuilder from './screens/DeckBuilder';
-import Ride from './screens/Ride';
 import Settlement from './screens/Settlement';
 import PackOpen from './screens/PackOpen';
 import MapView from './screens/MapView';
@@ -65,15 +64,6 @@ function App() {
           onBack={() => setScreen('missions')}
           onNext={handleDeckNext}
           onNavigate={setScreen}
-        />
-      );
-    case 'ride':
-      return (
-        <Ride
-          regionCode={regionCode}
-          deckCardCodes={deckCardCodes}
-          onCancel={() => setScreen('deck')}
-          onFinish={handleRideFinish}
         />
       );
     case 'settlement':
