@@ -1,6 +1,7 @@
 // 화면: 몬스터 배틀
 // 지도에서 레드포인트(결함 후보) 하나를 탭하면 이 화면으로 옴.
-// 코리요 캐릭터를 몬스터로 써서, 탭할 때마다 HP가 깎이고 진동(haptic)이 옴.
+// 헬멧 쓴 코리요들 = 몬스터(나쁜 애들), 헬멧 안 쓴 기본 코리요 = 착한 애(공격하는 쪽 캐릭터).
+// 탭할 때마다 HP가 깎이고 진동(haptic)이 옴.
 // HP가 0이 되면 실제 백엔드 배틀 API를 호출해서 보상을 받아옴 — 덱 편성(3장) 시너지가
 // 반영된 진짜 보상이 나옴 (POST /api/v1/anomalies/{cellId}/battle).
 //
@@ -9,18 +10,43 @@
 
 import { useRef, useState } from 'react';
 import { battleAnomaly } from '../api';
-import bossDefaultImg from '../assets/boss-default.png';
-import riderMarkerImg from '../assets/rider-marker.png';
+import koriyoGoodImg from '../assets/monsters/koriyo_good.png';
+import dalkongiPink from '../assets/monsters/dalkongi_pink.png';
+import dalkongiPurple from '../assets/monsters/dalkongi_purple.png';
+import dalkongiMint from '../assets/monsters/dalkongi_mint.png';
+import dalkongiYellow from '../assets/monsters/dalkongi_yellow.png';
+import dalkongiBlue from '../assets/monsters/dalkongi_blue.png';
+import dalkongiGreen from '../assets/monsters/dalkongi_green.png';
+import dalkongiOrange from '../assets/monsters/dalkongi_orange.png';
+import dalkongiSky from '../assets/monsters/dalkongi_sky.png';
+import dalkongiLime from '../assets/monsters/dalkongi_lime.png';
+import dalkongiWhite from '../assets/monsters/dalkongi_white.png';
+import tyrexGreen from '../assets/monsters/tyrex_green.png';
+import tyrexBlack from '../assets/monsters/tyrex_black.png';
+import tyrexStorm from '../assets/monsters/tyrex_storm.png';
 
 const MAX_HP = 100;
 const TAP_DAMAGE = 18;
 
-// 결함 유형별로 다른 코리요 몬스터를 쓰고 싶으면 여기에 이미지를 매핑하면 됨.
-// 지금은 코리요 이미지 에셋이 아직 없어서 기본 보스 이미지로 대체함.
-const MONSTER_IMAGE_BY_CLASS = {
-  // '충격성 이상 후보': koriyoBumpImg,
-  // '반복 진동성 이상 후보': koriyoShakeImg,
-};
+// 헬멧 쓴 애들 = "나쁜 애들"(몬스터). 헬멧 안 쓴 코리요(koriyoGoodImg)는
+// "착한 애"라서 몬스터로 안 쓰고, 라이더(공격하는 쪽) 이미지로 씀.
+const MONSTER_ROSTER = [
+  dalkongiPink, dalkongiPurple, dalkongiMint, dalkongiYellow, dalkongiBlue,
+  dalkongiGreen, dalkongiOrange, dalkongiSky, dalkongiLime, dalkongiWhite,
+  tyrexGreen, tyrexBlack, tyrexStorm,
+];
+
+// 결함 후보(cellId)마다 항상 같은 몬스터가 나오도록 간단한 해시로 로스터에서 하나 고름.
+// 결함 유형(anomalyClass)은 지금 2종류뿐이라 그걸로 나누면 몬스터가 2종류밖에 안 나와서,
+// 대신 지점마다 다르게 보이도록 cellId 기준으로 골랐음.
+function pickMonster(cellId) {
+  if (!cellId) return MONSTER_ROSTER[0];
+  let hash = 0;
+  for (let i = 0; i < cellId.length; i++) {
+    hash = (hash * 31 + cellId.charCodeAt(i)) >>> 0;
+  }
+  return MONSTER_ROSTER[hash % MONSTER_ROSTER.length];
+}
 
 function vibrate(pattern) {
   if (navigator.vibrate) navigator.vibrate(pattern);
@@ -37,7 +63,7 @@ export default function MonsterBattle({ anomaly, deckCardCodes, onDone }) {
   // (연속 클릭하면 claimReward가 여러 번 불려서 서버에 중복 배틀 요청이 감). ref로 한 번만 막음.
   const claimedRef = useRef(false);
 
-  const monsterImg = MONSTER_IMAGE_BY_CLASS[anomaly?.anomalyClass] || bossDefaultImg;
+  const monsterImg = pickMonster(anomaly?.cellId);
 
   function handleAttack() {
     if (defeated) return;
@@ -70,7 +96,7 @@ export default function MonsterBattle({ anomaly, deckCardCodes, onDone }) {
       {anomaly?.note && <p className="hint">{anomaly.note}</p>}
 
       <div className={`boss-arena${defeated ? ' defeated' : ''}`}>
-        <img src={riderMarkerImg} alt="" className="attacker" />
+        <img src={koriyoGoodImg} alt="" className="attacker" />
         <img key={hitKey} src={monsterImg} alt="몬스터" className="boss-img" />
         {defeated && (
           <div className="defeat-banner">
