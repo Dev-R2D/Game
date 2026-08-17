@@ -10,7 +10,7 @@
 ## 1. 실행
 
 ```bash
-cd backend && ./gradlew bootRun
+./gradlew bootRun
 ```
 
 | 항목 | 값 |
@@ -24,7 +24,7 @@ cd backend && ./gradlew bootRun
 테스트:
 
 ```bash
-cd backend && ./gradlew test
+./gradlew test
 ```
 
 ---
