@@ -14,7 +14,8 @@ import BottomNav from '../components/BottomNav';
 import { IconChevronLeft, IconMap } from '../components/Icons';
 
 const MAX_SPAN = 0.045; // 서버 제한(0.05도)보다 살짝 여유를 둠
-const DEFAULT_CENTER = { lat: 37.23, lon: 127.12 };
+// 시드 데이터(GameDataSeeder)와 심사 재생 로그가 만드는 셀·결함 후보가 이 근처에 몰려 있음.
+const DEFAULT_CENTER = { lat: 37.20, lon: 127.10 };
 const MAP_EL_ID = 'r2d-map-view-google';
 
 export default function MapView({ onBack, onNavigate, onSelectAnomaly }) {

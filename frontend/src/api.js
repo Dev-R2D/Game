@@ -140,6 +140,12 @@ export function getMapAnomalies(bounds) {
   return request(`/map/anomalies?minLat=${minLat}&maxLat=${maxLat}&minLon=${minLon}&maxLon=${maxLon}`);
 }
 
+// ── 몬스터 배틀 ──────────────────────────────────────────
+// 덱 편성(3장)을 같이 보내면 시너지 배율이 보상에 반영됨. 안 보내면 중립 덱(배율 1.0).
+export function battleAnomaly(cellId, deckCardCodes) {
+  return request(`/anomalies/${cellId}/battle`, { method: 'POST', body: { deckCardCodes: deckCardCodes || [] } });
+}
+
 // ── 심사 모드 (데모용) ──────────────────────────────────
 export function getJudgeLogs() {
   return request('/judge/logs');

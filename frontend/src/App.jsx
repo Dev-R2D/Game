@@ -91,6 +91,7 @@ function App() {
       return (
         <MonsterBattle
           anomaly={selectedAnomaly}
+          deckCardCodes={deckCardCodes}
           onDone={() => setScreen('map')}
         />
       );

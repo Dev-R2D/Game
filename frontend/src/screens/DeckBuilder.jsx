@@ -1,6 +1,7 @@
 // 화면 ③: 덱 편성
 // 카드 도감에서 3장을 고르면 /decks/preview로 시너지를 미리 보여줌.
-// 3장이 다 채워지기 전까지는 주행 시작 버튼이 비활성화됨.
+// 3장이 다 채워지기 전까지는 "지도로 이동" 버튼이 비활성화됨.
+// 다음 화면은 지도(레드포인트) — 실제 주행은 이제 네비게이터가 담당함.
 
 import { useEffect, useState } from 'react';
 import { getCardCatalog, previewDeck } from '../api';
@@ -140,7 +141,7 @@ export default function DeckBuilder({ regionCode, onBack, onNext, onNavigate }) 
             onNext(regionCode, selected);
           }}
         >
-          {selected.length}/3장 선택됨 · 주행 시작
+          {selected.length}/3장 선택됨 · 지도로 이동
         </button>
       </div>
       <BottomNav screen="deck" onNavigate={onNavigate} />
